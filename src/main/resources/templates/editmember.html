@@ -1,0 +1,42 @@
+<!DOCTYPEhtml>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Member</title>
+<link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"
+	th:href="@{../css/bootstrap.min.css}">
+</head>
+
+<body>
+	<div class="container">
+		<h1 class="text-center">Edit Member</h1>
+			<form th:object="${member}" th:action="@{../save}" action="#" method="post">
+				<input type="hidden" th:field="*{id}" /> 
+				
+				<label for="memberName">Member Name</label>
+				<input class="form-control" type="text" id="memberName" th:field="*{memberName}" /> 
+				<label for="birthDate">Date of Birth</label> 
+				<input class="form-control" type="text" id="bithDate" th:field="*{birthDate}" />
+				<label for="joinYear">Year of membership</label>	
+				<input class="form-control" type="text" id="joinYear" th:field="*{joinYear}" /> 
+						
+				<div style="clear: both; display: block; height: 10px;"></div>
+				<label for="statlist">Status</label> 
+				<select id="statlist" th:field="*{status}" class="form-control">
+					<option th:each="status: ${status}" th:value="${status.statusId}" th:text="${status.status}"></option>
+				</select> 
+				<label for="city">City</label> 
+				<input class="form-control" type="text" id="city" th:field="*{city}" /> 
+				<label for="code">Post code</label>
+				<input class="form-control" type="text" id="code" th:field="*{code}" />
+				<label for="email">e-mail</label>
+				<input class="form-control" type="text" id="email" th:field="*{email}" />
+				
+				<div style="clear: both; display: block; height: 10px;"></div>
+				<input class="btn btn-success" type="submit" value="Save" />
+			</form>
+		</div>
+	
+</body>
+
+</html>
