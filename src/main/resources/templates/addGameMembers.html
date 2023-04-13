@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Developer</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container">
+	<h1>Add players</h1>
+	<form th:action="@{/game/{gameid}/members(gameid=${game.gameid})}" method="get" enctype="multipart/form-data" >
+	<div class="col-md-4">
+		<div class="panel panel-default">
+		 <div class="panel-heading">Match info</div>
+		 <div class="panel-body" style="padding-left: 5px;">
+			Opponent: <b th:text="${game.opponent}" /><br/>
+			Match date: <span th:text="${game.gameDate}" /><br/>
+			<br/>Players:
+				<span th:each="member : ${game.members}">
+					<br/>&nbsp;&nbsp;<span th:text="${member.memberName}" />
+				</span>
+				<br/>
+				</div>
+		</div>	
+			<div class="col-md-6">
+			<select class="form-control" name="id">
+				<option th:each="member : ${members}" 
+					th:value="${member.id}" 
+					th:text="${member.memberName}">Players</option>
+			</select>
+			</div>
+			<hr>
+			<input type="submit" name="action" class="btn btn-primary" value="Save"></input>
+			<input type="submit" name="action" class="btn btn-secondary" value="Cancel"></input>
+	</div>
+	</form>
+</div>
+</body>
+</html>

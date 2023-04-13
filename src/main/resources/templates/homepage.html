@@ -1,0 +1,36 @@
+<!DOCTYPEhtml>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+
+<title>Homepage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+</head>
+
+<body>
+<div class="container">
+	<div style="padding:20px 0">
+		<h2>Nordic Warriors Sports Club</h2>
+	</div>
+	<div style="padding:10px 0">
+		<h3 th:inline="text">Welcome <b sec:authentication="name"></b></h3>
+	</div>
+	
+	<p>Click the button below to see all the members of our club.<br>
+	<a href="/memberlist" class="btn btn-primary">Members</a></p>
+	
+	<p>Click the button below to see all the games of our club.<br>
+	<a href="/gamelist" class="btn btn-primary">Games</a></p>
+	
+	<div class="col-md-4" style="padding:20px 0" >
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
+
+</div>
+		
+</body>
+
+</html>

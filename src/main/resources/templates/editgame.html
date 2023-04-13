@@ -1,0 +1,35 @@
+<!DOCTYPEhtml>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Match</title>
+<link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css"
+	th:href="@{../css/bootstrap.min.css}">
+</head>
+
+<body>
+	<div class="container">
+		<h1 class="text-center">Edit Match</h1>
+			<form th:object="${game}" th:action="@{../savegame}" action="#" method="post">
+			
+				<input type="hidden" th:field="*{gameid}" class="form-control"/> 
+				
+				<label for="opponent">Opponent</label>
+				<input class="form-control" type="text" id="opponent" th:field="*{opponent}" /> 
+				<label for="gameDate">Match date</label> 
+				<input class="form-control" type="date" id="gameDate" th:field="*{gameDate}" /> 
+						
+				<div style="clear: both; display: block; height: 10px;"></div>
+				<label for="typelist">Match type</label> 
+				<select id="typelist" th:field="*{matchType}" class="form-control">
+					<option th:each="matchType: ${matchType}" th:value="${matchType.typeId}" th:text="${matchType.matchType}"></option>
+				</select> 
+				
+				<div style="clear: both; display: block; height: 10px;"></div>
+				<input class="btn btn-success" type="submit" value="Save" />
+			</form>
+		</div>
+	
+</body>
+
+</html>

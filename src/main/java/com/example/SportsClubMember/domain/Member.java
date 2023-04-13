@@ -1,10 +1,18 @@
 package com.example.SportsClubMember.domain;
 
+import java.time.LocalDate;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -12,18 +20,23 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String memberName, city, birthDate, email, code;
+	private String memberName, city, email, code;
 	private int joinYear;
+	private LocalDate birthDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "statusId")
 	private Status status;
 	
+	@ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("members")
+	private Set<Game> games;
+	
 	public Member() {
 		super();
 	}
 	
-	public Member( String memberName, String birthDate, int joinYear, Status status, String city, String code, String email ) {
+	public Member( String memberName, LocalDate birthDate, int joinYear, Status status, String city, String code, String email ) {
 		super();
 		this.memberName = memberName;
 		this.birthDate = birthDate;
@@ -33,7 +46,7 @@ public class Member {
 		this.code = code;
 		this.email = email;
 	}
-
+	
 	public long getId() {
 		return id;
 	}
@@ -41,7 +54,8 @@ public class Member {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
+	@Column(name = "membername")
 	public String getMemberName() {
 		return memberName;
 	}
@@ -49,7 +63,8 @@ public class Member {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-
+	
+	@Column(name="city")
 	public String getCity() {
 		return city;
 	}
@@ -57,15 +72,17 @@ public class Member {
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-	public String getBirthDate() {
+	
+	@Column(name="birthdate")
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
-
+	
+	@Column(name="email")
 	public String getEmail() {
 		return email;
 	}
@@ -73,7 +90,8 @@ public class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
+	@Column(name="code")
 	public String getCode() {
 		return code;
 	}
@@ -81,7 +99,8 @@ public class Member {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	
+	@Column(name="joinyear")
 	public int getJoinYear() {
 		return joinYear;
 	}
@@ -96,6 +115,15 @@ public class Member {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	public void setGames(Set<Game> games) {
+		this.games = games;
 	}
 
 	@Override

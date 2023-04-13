@@ -16,11 +16,26 @@
 	<div class="col-md-4">
 		<h3 th:inline="text">Welcome <b sec:authentication="name"></b></h3>
 	</div>
+	<a href="/homepage" class="btn btn-primary">Home</a>
+	
 	<div class="col-md-4" style="padding:20px 0" >
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
 		</form>
 	</div>
+	<form th:action="@{/}">
+	    Filter: <input type="text" name="memberName" id="memberName" size="50" th:value="${memberName}" required />
+	    &nbsp;
+	    <input type="submit" value="Search" />
+	    &nbsp;
+	    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<script type="text/javascript">
+	    function clearSearch() {
+	        window.location = "[[@{/}]]";
+	    }
+	</script>
+	<div style="padding:0 20px">
 		<table class="table table-striped">
 			<tr>
 				<th>Member Name</th>
@@ -44,10 +59,12 @@
 					class="btn btn-danger">Delete</a></td>
 				<td><a th:href="@{/edit/{id}(id=${member.id})}"
 					class="btn btn-primary">Edit</a></td>
-			</tr>
-		</table>
+			 </tr>
+			</table>
+		</div>
 		<div style="clear: both; display: block; height: 10px;"></div>
 		<a href="/add" class="btn btn-success">Add Member</a>
+		
 </div>
 		
 </body>

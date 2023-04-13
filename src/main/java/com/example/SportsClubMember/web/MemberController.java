@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,20 +28,37 @@ public class MemberController {
 	@Autowired
 	private StatusRepository srepository;
 	
+	@Autowired
+	private MemberService memberService;
+	
 	// Login page
 	@RequestMapping(value = "/login")
 	public String login() {
 		return "login";
 	}
 	
+	// Welcome page
+	@RequestMapping(value = "/homepage")
+	public String homepage(Model model) {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = user.getUsername();
+		System.out.println("USERNAME: " + username);
+    	model.addAttribute("name", username);
+    	
+		return "homepage";
+	}
+	
 	// Club member list
 	@RequestMapping(value = { "/", "/memberlist"})
-	public String memberList(Model model) {
+	public String memberList(Model model, @Param("memberName") String memberName) {
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = user.getUsername();
 		System.out.println("USERNAME: " + username);
     	model.addAttribute("name", username);
     	model.addAttribute("members", repository.findAll());
+    	
+    	List<Member> member = memberService.listAll(memberName);
+    	model.addAttribute("members", member);
     	return "memberlist";
 	}
 	

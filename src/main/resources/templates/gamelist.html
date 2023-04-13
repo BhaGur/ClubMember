@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Match lists</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+</head>
+
+<body>
+<div class="container">
+	<div class="col-md-4">
+		<h1>Matches</h1>
+	</div>
+	<a href="/homepage" class="btn btn-primary">Home</a>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/memberlist}" method="post">
+			<input type="submit" value="Member list" class="btn btn-danger"/>
+		</form>
+	</div>
+	
+    <form th:action="@{/gamelist}">
+	    Filter: <input type="text" name="opponent" id="opponent" size="50" th:value="${opponent}" required />
+	    &nbsp;
+	    <input type="submit" value="Search" />
+	    &nbsp;
+	    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<script type="text/javascript">
+	    function clearSearch() {
+	        window.location = "[[@{/gamelist}]]";
+	    }
+	</script>
+    <div style="padding:0 20px">
+    <table class="table table-striped">
+		<tr>
+		    <th>Opponent</th>
+		    <th>Date</th>
+		    <th>Match Type</th>
+		    <th>Players</th>
+		</tr>  
+    	<tr th:each = "game : ${games}">
+    		<td th:text="${game.opponent}"></td>
+    		<td th:text="${game.gameDate}"></td>
+    		<td th:text="${game.matchType.matchType}"></td>
+    		<td>
+				<span th:each="member,iterStat : ${game.members}">
+					<span th:text="${member.memberName}"/><th:block th:if="${!iterStat.last}">,</th:block>
+				</span>    		
+    		</td>
+    		<td>
+    			<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/addGameMembers/{id}(id=${game.gameid})}" class="btn btn-primary btn-sm">Add Player</a>
+    			<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/editgame/{id}(id=${game.gameid})}" class="btn btn-primary btn-sm">Edit</a>
+    			<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/deletegame/{id}(id=${game.gameid})}" class="btn btn-danger btn-sm">Delete</a>
+    		</td>
+    	</tr>
+    </table>
+    <a sec:authorize="hasAuthority('ADMIN')" href="/addgame" class="btn btn-primary">Add Game</a>
+	</div>    
+</div>
+</body>
+</html>
